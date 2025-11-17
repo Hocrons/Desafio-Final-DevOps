@@ -119,7 +119,6 @@ As dependências do projeto estão no arquivo **requirements.txt**, incluindo:
 
 * Flask
 * Werkzeug>=2.3.3
-* PyJWT (caso utilizado)
 
 Instalação manual:
 
