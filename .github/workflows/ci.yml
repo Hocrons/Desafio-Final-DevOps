@@ -1,0 +1,57 @@
+name: CI - Build e Testes
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  test:
+    name: Build e Testes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install flake8
+
+      - name: Rodar Lint (flake8)
+        continue-on-error: false
+        run: |
+          flake8 . --max-line-length=120 || true
+
+      - name: Rodar testes (unittest)
+        run: |
+          python -m unittest discover -v
+
+      - name: Build da imagem Docker (opcional - verifica se Dockerfile funciona)
+        run: |
+          docker build -t desafio-final-devops:ci .
+
+      - name: Salvar relatório de testes (artifact)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-logs
+          path: |
+            ./**/test*.py
+            ./**/tests
