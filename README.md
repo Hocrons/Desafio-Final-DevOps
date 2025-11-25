@@ -1,150 +1,197 @@
-# Projeto API Flask + Testes Unitários (DevOps)
+# 🚀 Desafio Final DevOps — API Flask com CI, Testes Automatizados e Deploy na Vercel
 
-Este repositório contém uma API simples desenvolvida em **Flask**, acompanhada de um ambiente configurado com **Docker** e **testes unitários** utilizando **unittest**, conforme solicitado no LAB e nos slides fornecidos.
+Este projeto foi desenvolvido como parte do desafio final do módulo de **DevOps**, aplicando:
+- Desenvolvimento de API em Flask  
+- Autenticação JWT  
+- Documentação com Swagger  
+- Testes automatizados  
+- CI usando GitHub Actions  
+- Deploy automatizado utilizando a Vercel  
 
----
-
-## 📌 Objetivo do Projeto
-
-O objetivo principal deste projeto é aplicar conceitos fundamentais de **DevOps**, incluindo:
-
-* Criação de uma API web simples em Flask
-* Criação de ambiente de execução com Docker
-* Criação de testes unitários usando unittest
-* Execução dos testes dentro de um container Docker
-* Organização e padronização do projeto com README
+O resultado é uma aplicação completa, profissional e seguindo boas práticas modernas de desenvolvimento e automação.
 
 ---
 
-## 🗂 Estrutura do Projeto
+# 📂 Estrutura do Projeto
 
-```
-/Desafio-Final-DevOps
-│
-├── app.py                 # Código principal da API Flask
-├── test_app.py            # Testes unitários dos endpoints
-├── requirements.txt       # Dependências Python
-├── Dockerfile             # Imagem Docker da API
-└── docker-compose.yml     # Orquestração dos containers
-```
+Desafio-Final-DevOps/
+├── app.py
+├── test_app.py
+├── requirements.txt
+├── Dockerfile
+├── docker-compose.yml
+├── static/
+│ └── swagger.json
+└── .github/
+└── workflows/
+└── ci.yml
 
----
-
-## 🚀 API Flask
-
-A API possui três endpoints principais:
-
-### **GET /**
-
-Retorna mensagem indicando que a API está online.
-
-### **POST /login**
-
-Gera um token JWT fictício apenas para fins de teste.
-
-### **GET /protected**
-
-Rota protegida que exige token. Sem token → retorna **401**.
+yaml
+Copiar código
 
 ---
 
-## 🧪 Testes Unitários
+# 🧩 Funcionalidades da API
 
-Os testes validados no arquivo `test_app.py` verificam:
+### **Endpoints principais**
 
-### ✔ test_home
-
-* Verifica status 200
-* Verifica resposta `{"message": "API is running"}`
-
-### ✔ test_login
-
-* Verifica status 200
-* Verifica existência de `access_token` na resposta
-
-### ✔ test_protected_no_token
-
-* Acesso à rota protegida sem token
-* Resultado esperado → **401 Unauthorized**
-
-### ▶ Como executar os testes
-
-No Docker Compose:
-
-```
-docker-compose run api python -m unittest discover
-```
-
-Sem Docker:
-
-```
-python -m unittest discover
-```
+| Método | Rota         | Descrição                              |
+|--------|--------------|------------------------------------------|
+| GET    | `/`          | Verifica se a API está no ar            |
+| GET    | `/items`     | Retorna uma lista de itens              |
+| POST   | `/login`     | Gera um token JWT                       |
+| GET    | `/protected` | Endpoint protegido que exige JWT        |
+| GET    | `/swagger`   | Interface Swagger UI com documentação   |
 
 ---
 
-## 🐳 Docker
+# 🔐 Autenticação (JWT)
 
-### 📌 Dockerfile
+A rota `/login` gera um token JWT:
 
-O projeto possui um Dockerfile que:
+```json
+{
+  "access_token": "xxxx.yyyy.zzzz"
+}
+Para acessar /protected, envie o token no cabeçalho:
 
-* Define a imagem base Python
-* Instala dependências
-* Copia o código para o container
-* Expõe porta 5000
-* Executa o app Flask
+makefile
+Copiar código
+Authorization: Bearer SEU_TOKEN_AQUI
+📘 Documentação Swagger
+A API possui documentação Swagger UI disponível em:
 
-### 📌 docker-compose.yml
+👉 /swagger
 
-O compose gerencia o serviço `api`, mapeando portas e volume do projeto.
+Arquivos JSON da documentação ficam em:
 
-### ▶ Como iniciar a API:
+arduino
+Copiar código
+/static/swagger.json
+🧪 Testes Automatizados
+Os testes foram criados utilizando o módulo unittest.
 
-```
+Os seguintes cenários são validados:
+
+✔ Teste da rota principal (/)
+
+✔ Teste da lista de itens (/items)
+
+✔ Teste de login e retorno do token JWT (/login)
+
+✔ Teste da rota protegida sem token (deve falhar)
+
+✔ Teste da rota protegida com token válido (deve passar)
+
+Executar testes localmente:
+nginx
+Copiar código
+python -m unittest discover -v
+⚙️ CI — Integração Contínua com GitHub Actions
+O pipeline CI executa automaticamente:
+
+Instalação de dependências
+
+Execução dos testes automatizados
+
+Validação da qualidade do código
+
+Arquivo do pipeline:
+
+bash
+Copiar código
+.github/workflows/ci.yml
+Workflow utilizado:
+
+yaml
+Copiar código
+name: CI - Testes Automatizados
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: python -m unittest discover -v
+☁️ Deploy — Plataforma Vercel
+O deploy da aplicação é realizado automaticamente pela Vercel a cada push na branch main.
+
+✔ Deploy automático
+✔ Logs e previews gerenciados pela Vercel
+✔ Ambiente estável e escalável
+A URL do deploy deve ser adicionada aqui:
+
+👉 https://seu-projeto.vercel.app
+
+🐳 Docker (Ambiente Local)
+O projeto também conta com configuração Docker para execução local.
+
+Build e execução:
+css
+Copiar código
 docker-compose up --build
-```
+Isso permite:
 
-API estará disponível em:
+Ambiente isolado
 
-```
-http://localhost:5000
-```
+Mesma configuração entre dev e produção
 
----
+Execução rápida e consistente
 
-## 📦 Dependências
+📦 Dependências principais
+Flask
 
-As dependências do projeto estão no arquivo **requirements.txt**, incluindo:
+Flask-JWT-Extended
 
-* Flask
-* Werkzeug>=2.3.3
+Flask-Swagger-UI
 
-Instalação manual:
+Werkzeug 2.3.7
 
-```
+Gunicorn
+
+Arquivo: requirements.txt
+
+💡 Como Rodar Localmente
+Clone o repositório
+
+bash
+Copiar código
+git clone https://github.com/SEU-USUARIO/Desafio-Final-DevOps.git
+Instale dependências
+
+nginx
+Copiar código
 pip install -r requirements.txt
-```
+Inicie o servidor
 
----
+nginx
+Copiar código
+python app.py
+Acesse no navegador:
 
-## 📚 Fonte / Base do Projeto
-
-Este projeto segue como continuação das atividades do **LAB de API WEB + Testes Unitários + Docker**, conforme instruções dos slides fornecidos.
-
----
-
-## ✅ Status do Projeto
-
-✔ API funcionando<br>
-✔ Testes unitários implementados<br>
-✔ Ambiente Docker configurado<br>
-✔ Pronto para entrega
-
----
-
-## 👨‍💻 Autor
-
+arduino
+Copiar código
+http://localhost:5000
+📝 Autor
 Heitor dos Santos
-
-Projeto desenvolvido para disciplina de DevOps.
+Estudante de Sistemas de Informação | Desenvolvedor | DevOps
