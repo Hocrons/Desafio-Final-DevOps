@@ -1,197 +1,132 @@
-# 🚀 Desafio Final DevOps — API Flask com CI, Testes Automatizados e Deploy na Vercel
+# 🚀 Desafio Final DevOps — API Flask com CI, Testes Automatizados e Deploy
 
-Este projeto foi desenvolvido como parte do desafio final do módulo de **DevOps**, aplicando:
-- Desenvolvimento de API em Flask  
+Este projeto foi desenvolvido como parte do **Desafio Final de DevOps** e inclui:
+
+- API Flask  
 - Autenticação JWT  
-- Documentação com Swagger  
-- Testes automatizados  
-- CI usando GitHub Actions  
-- Deploy automatizado utilizando a Vercel  
-
-O resultado é uma aplicação completa, profissional e seguindo boas práticas modernas de desenvolvimento e automação.
-
----
-
-# 📂 Estrutura do Projeto
-
-Desafio-Final-DevOps/
-├── app.py
-├── test_app.py
-├── requirements.txt
-├── Dockerfile
-├── docker-compose.yml
-├── static/
-│ └── swagger.json
-└── .github/
-└── workflows/
-└── ci.yml
-
-yaml
-Copiar código
+- Documentação Swagger  
+- Testes Automatizados  
+- Pipeline CI com GitHub Actions  
+- Deploy automático na Vercel  
+- Docker para ambiente local  
 
 ---
 
-# 🧩 Funcionalidades da API
-
-### **Endpoints principais**
+## 📌 **Endpoints da API**
 
 | Método | Rota         | Descrição                              |
 |--------|--------------|------------------------------------------|
-| GET    | `/`          | Verifica se a API está no ar            |
-| GET    | `/items`     | Retorna uma lista de itens              |
-| POST   | `/login`     | Gera um token JWT                       |
-| GET    | `/protected` | Endpoint protegido que exige JWT        |
-| GET    | `/swagger`   | Interface Swagger UI com documentação   |
+| GET    | `/`          | Status da API                           |
+| GET    | `/items`     | Retorna lista de itens                  |
+| POST   | `/login`     | Gera token JWT                          |
+| GET    | `/protected` | Rota protegida por JWT                  |
+| GET    | `/swagger`   | Interface Swagger UI                    |
 
 ---
 
-# 🔐 Autenticação (JWT)
+# 🔐 Autenticação JWT
 
-A rota `/login` gera um token JWT:
+### ➤ **Login**
+`POST /login`
 
-```json
+Retorno esperado:
+
+``json
 {
-  "access_token": "xxxx.yyyy.zzzz"
+  "access_token": "TOKEN_JWT_AQUI"
 }
-Para acessar /protected, envie o token no cabeçalho:
+➤ Acesso à rota protegida
+Envie o token no header:
 
 makefile
 Copiar código
 Authorization: Bearer SEU_TOKEN_AQUI
 📘 Documentação Swagger
-A API possui documentação Swagger UI disponível em:
+A documentação completa está disponível em:
 
 👉 /swagger
 
-Arquivos JSON da documentação ficam em:
+Arquivo JSON utilizado:
 
 arduino
 Copiar código
 /static/swagger.json
 🧪 Testes Automatizados
-Os testes foram criados utilizando o módulo unittest.
+Testes desenvolvidos com unittest, cobrindo:
 
-Os seguintes cenários são validados:
+✔ Rota principal /
+✔ Rota /items
+✔ Login /login e retorno do token
+✔ Acesso negado à rota /protected sem token
+✔ Acesso permitido à rota /protected com token válido
 
-✔ Teste da rota principal (/)
-
-✔ Teste da lista de itens (/items)
-
-✔ Teste de login e retorno do token JWT (/login)
-
-✔ Teste da rota protegida sem token (deve falhar)
-
-✔ Teste da rota protegida com token válido (deve passar)
-
-Executar testes localmente:
+Executar testes:
 nginx
 Copiar código
 python -m unittest discover -v
-⚙️ CI — Integração Contínua com GitHub Actions
-O pipeline CI executa automaticamente:
+⚙️ CI — GitHub Actions
+Pipeline executa automaticamente:
 
-Instalação de dependências
+Instalação das dependências
 
 Execução dos testes automatizados
 
-Validação da qualidade do código
+Validação do ambiente
 
-Arquivo do pipeline:
-
-bash
-Copiar código
+Arquivo do workflow:
 .github/workflows/ci.yml
-Workflow utilizado:
 
-yaml
-Copiar código
-name: CI - Testes Automatizados
+☁️ Deploy na Vercel
+O deploy é realizado automaticamente a cada push na branch main.
 
-on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Run tests
-        run: python -m unittest discover -v
-☁️ Deploy — Plataforma Vercel
-O deploy da aplicação é realizado automaticamente pela Vercel a cada push na branch main.
-
-✔ Deploy automático
-✔ Logs e previews gerenciados pela Vercel
-✔ Ambiente estável e escalável
-A URL do deploy deve ser adicionada aqui:
+URL do deploy (substituir pela sua):
 
 👉 https://seu-projeto.vercel.app
 
-🐳 Docker (Ambiente Local)
-O projeto também conta com configuração Docker para execução local.
+🐳 Executar com Docker
+Para rodar usando Docker:
 
-Build e execução:
 css
 Copiar código
 docker-compose up --build
-Isso permite:
+Benefícios:
 
 Ambiente isolado
 
-Mesma configuração entre dev e produção
+Reprodutibilidade entre máquinas
 
-Execução rápida e consistente
+Configuração consistente
 
-📦 Dependências principais
+📦 Dependências Principais
 Flask
 
 Flask-JWT-Extended
 
 Flask-Swagger-UI
 
-Werkzeug 2.3.7
-
 Gunicorn
+
+Werkzeug 2.3.7
 
 Arquivo: requirements.txt
 
-💡 Como Rodar Localmente
-Clone o repositório
-
+💻 Como Rodar Localmente
+1️⃣ Clonar o repositório
 bash
 Copiar código
 git clone https://github.com/SEU-USUARIO/Desafio-Final-DevOps.git
-Instale dependências
-
+2️⃣ Instalar dependências
 nginx
 Copiar código
 pip install -r requirements.txt
-Inicie o servidor
-
+3️⃣ Executar aplicação
 nginx
 Copiar código
 python app.py
-Acesse no navegador:
+Acessar no navegador:
 
-arduino
-Copiar código
-http://localhost:5000
-📝 Autor
-Heitor dos Santos
-Estudante de Sistemas de Informação | Desenvolvedor | DevOps
+👉 http://localhost:5000
+
+👤 Autor
+Heitor dos Santos Oliveira
+Estudante de Sistemas de Informação — DevOps Practitioner
