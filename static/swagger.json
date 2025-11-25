@@ -1,0 +1,53 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API DevOps",
+    "version": "1.0.0"
+  },
+  "basePath": "/",
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Home",
+        "responses": {
+          "200": {
+            "description": "API running"
+          }
+        }
+      }
+    },
+    "/items": {
+      "get": {
+        "summary": "Lista itens",
+        "responses": {
+          "200": {
+            "description": "Itens retornados"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "Gera token JWT",
+        "responses": {
+          "200": {
+            "description": "Token gerado"
+          }
+        }
+      }
+    },
+    "/protected": {
+      "get": {
+        "summary": "Rota protegida por JWT",
+        "responses": {
+          "200": {
+            "description": "Acesso autorizado"
+          },
+          "401": {
+            "description": "Token inválido ou ausente"
+          }
+        }
+      }
+    }
+  }
+}
