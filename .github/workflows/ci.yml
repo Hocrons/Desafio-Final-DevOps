@@ -1,4 +1,4 @@
-name: CI - Testes Automatizados
+name: CI/CD - Testes Automatizados
 
 on:
   push:
